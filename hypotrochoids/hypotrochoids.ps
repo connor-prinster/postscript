@@ -1,0 +1,29 @@
+%!
+
+%x(t) = ((a-b)*cos(t)) + (d*cos(((a-b)*t)/b))
+%y(t) = ((a-b)*sin(t)) - (d*sin(((a-b)*t)/b))
+
+/inch {72 mul} def
+
+4 inch 5.5 inch translate
+
+newpath
+0 0 moveto
+10 sin 10 10 cos 10 lineto
+20 sin 20 20 cos 20 lineto
+30 sin 30 30 cos 30 lineto
+stroke
+
+% 20 20 scale
+
+% 5 5 translate
+% 1 0 0 csquare
+
+% 1 0 translate
+% 0 1 0 csquare
+
+% 1 0 translate
+% 0 0 1 csquare
+
+showpage
+
