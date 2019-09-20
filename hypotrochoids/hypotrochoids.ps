@@ -1,29 +1,186 @@
 %!
 
-%x(t) = ((a-b)*cos(t)) + (d*cos(((a-b)*t)/b))
-%y(t) = ((a-b)*sin(t)) - (d*sin(((a-b)*t)/b))
+<< /PageSize [1000 1000] >> setpagedevice
 
-/inch {72 mul} def
+/inch {20 mul} def
 
-4 inch 5.5 inch translate
+/hypo {
+    % x = ((a - b) * cos(t)) + (a * cos( ((a - b)/b)*t ))
+	% y = ((a - b) * sin(t)) + (a * sin( ((a - b)/b)*t ))
+	/a exch def
+	/b exch def
+	/d exch def
+	/t exch def
 
-newpath
-0 0 moveto
-10 sin 10 10 cos 10 lineto
-20 sin 20 20 cos 20 lineto
-30 sin 30 30 cos 30 lineto
-stroke
+    a t div 0.9 mul
+    a d div 0.7 mul
+    a b div 0.5 mul 
+    setrgbcolor
 
-% 20 20 scale
+    d t
+    moveto
 
-% 5 5 translate
-% 1 0 0 csquare
+	a b exch sub t cos mul % ((a - b) * cos(t))
+	d a b exch sub b exch div t mul cos mul % (a * cos( ((a - b)/b)*t ))
+	add % x
 
-% 1 0 translate
-% 0 1 0 csquare
+	a b exch sub t sin mul % ((a - b) * sin(t))
+	d a b exch sub b exch div t mul sin mul % (a * sin( ((a - b)/b)*t ))
+	add % y
+} def
 
-% 1 0 translate
-% 0 0 1 csquare
+25 inch 25 inch translate
+
+% 1.
+0 2 360 {
+    1 3 720 {
+        newpath
+
+        % b, d, t
+		110 dup add
+        dup 92 div
+        20 dup div
+		hypo 
+
+        lineto stroke
+	} for
+    dup rotate
+} for
+
+% 2.
+0 20 360
+{
+	1 10 720
+	{
+		newpath
+		0 0 moveto
+		dup 
+		dup 720 div exch 270 div exch 0
+		setrgbcolor
+
+		%% t d littler bigr
+		110 165 275
+		hypo lineto 
+		stroke
+	} for
+	rotate
+} for
+
+% 3.
+0 1 180 {
+    1 10 360 {
+        newpath
+        
+        % b, d, t
+        10 dup mul 
+        30 
+        10
+		hypo 
+        lineto stroke
+	} for
+    rotate
+} for
+
+% 4.
+0 20 800 {
+    1 2 180 {
+        newpath
+        % b, d, t
+        60
+        200 dup div
+        102
+      	hypo 
+        lineto stroke
+	} for
+    rotate
+} for
+
+% 5
+0 1 250 {
+    1 2 180 {
+        newpath
+
+        % b, d, t
+        2
+        21
+        2
+       	hypo 
+        lineto stroke
+    } for
+    rotate
+} for
+
+% 6.
+0 1 180 {
+    1 2 180 {
+        newpath
+
+        % b, d, t
+        1
+        100 exch
+		dup 720 div exch 270 div exch 123
+       	hypo 
+        lineto stroke
+    } for
+    rotate
+} for
+
+% 7.
+0 1 180 {
+    1 2 180 {
+        newpath
+        % b, d, t
+        100
+        30
+		dup 720 div exch 270 div exch 0
+       	hypo 
+        lineto stroke
+    } for
+    rotate
+} for
+
+% 8.
+0 1 36 {
+    1 2 90 {
+        newpath
+        % b, d, t
+        3
+		dup 720 div exch 180 div exch 2
+        30
+       	hypo 
+        lineto stroke
+    } for
+    rotate
+} for
+
+% 9.
+0 1 36 {
+    1 2 45 {
+        newpath
+        % b, d, t
+        4
+		dup 720 div exch 90 div exch 2
+        90
+       	hypo 
+        lineto stroke
+    } for
+    rotate
+} for
+
+% 10.
+0 1 90 {
+    1 2 90 {
+        newpath
+        % b, d, t
+        100
+		dup 360 div exch 2 div exch 2
+        300
+       	hypo 
+        lineto stroke
+    } for
+    rotate
+} for
+
 
 showpage
 
