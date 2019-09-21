@@ -20,12 +20,12 @@
     d t
     moveto
 
-	a b exch sub t cos mul % ((a - b) * cos(t))
-	d a b exch sub b exch div t mul cos mul % (a * cos( ((a - b)/b)*t ))
+	a b sub t cos mul % ((a - b) * cos(t))
+	d a b sub b div t mul cos mul % (a * cos( ((a - b)/b)*t ))
 	add % x
 
-	a b exch sub t sin mul % ((a - b) * sin(t))
-	d a b exch sub b exch div t mul sin mul % (a * sin( ((a - b)/b)*t ))
+	a b sub t sin mul % ((a - b) * sin(t))
+	d a b sub b div t mul sin mul % (a * sin( ((a - b)/b)*t ))
 	add % y
 } def
 
@@ -37,7 +37,7 @@
         newpath
 
         % b, d, t
-		110 dup add
+		11 dup add
         dup 92 div
         20 dup div
 		hypo 
@@ -159,7 +159,7 @@
         newpath
         % b, d, t
         4
-		dup 720 div exch 90 div exch 2
+		dup 72 div exch 90 div exch 2
         90
        	hypo 
         lineto stroke
@@ -173,7 +173,7 @@
         newpath
         % b, d, t
         100
-		dup 360 div exch 2 div exch 2
+		dup 30 div exch 2 div exch 2
         300
        	hypo 
         lineto stroke
