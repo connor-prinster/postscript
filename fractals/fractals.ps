@@ -4,183 +4,47 @@
 
 /inch {20 mul} def
 
-/hypo {
-    % x = ((a - b) * cos(t)) + (a * cos( ((a - b)/b)*t ))
-	% y = ((a - b) * sin(t)) + (a * sin( ((a - b)/b)*t ))
-	/a exch def
-	/b exch def
-	/d exch def
-	/t exch def
+/f {
+    newpath
+    0 0 moveto
+    10 0 lineto
+    stroke
+} def
 
-    a t div 0.9 mul
-    a d div 0.7 mul
-    a b div 0.5 mul 
-    setrgbcolor
+/l
+{
+    30 rotate
+} def
 
-    d t
-    moveto
+/r {
+    -30 rotate
+} def
 
-	a b sub t cos mul % ((a - b) * cos(t))
-	d a b sub b div t mul cos mul % (a * cos( ((a - b)/b)*t ))
-	add % x
+/start {
+    gsave
+} def
 
-	a b sub t sin mul % ((a - b) * sin(t))
-	d a b sub b div t mul sin mul % (a * sin( ((a - b)/b)*t ))
-	add % y
+/end {
+    grestore
 } def
 
 25 inch 25 inch translate
 
-% 1.
-0 2 360 {
-    1 3 720 {
-        newpath
+/snowflake {
 
-        % b, d, t
-		11 dup add
-        dup 92 div
-        20 dup div
-		hypo 
+    moveto
 
-        lineto stroke
-	} for
-    dup rotate
-} for
-
-% 2.
-0 20 360
-{
-	1 10 720
-	{
-		newpath
-		0 0 moveto
-		dup 
-		dup 720 div exch 270 div exch 0
-		setrgbcolor
-
-		%% t d littler bigr
-		110 165 275
-		hypo lineto 
-		stroke
-	} for
-	rotate
-} for
-
-% 3.
-0 1 180 {
-    1 10 360 {
-        newpath
-        
-        % b, d, t
-        10 dup mul 
-        30 
-        10
-		hypo 
-        lineto stroke
-	} for
-    rotate
-} for
-
-% 4.
-0 20 800 {
-    1 2 180 {
-        newpath
-        % b, d, t
-        60
-        200 dup div
-        102
-      	hypo 
-        lineto stroke
-	} for
-    rotate
-} for
-
-% 5
-0 1 250 {
-    1 2 180 {
-        newpath
-
-        % b, d, t
-        2
-        21
-        2
-       	hypo 
-        lineto stroke
-    } for
-    rotate
-} for
-
-% 6.
-0 1 180 {
-    1 2 180 {
-        newpath
-
-        % b, d, t
-        1
-        100 exch
-		dup 720 div exch 270 div exch 123
-       	hypo 
-        lineto stroke
-    } for
-    rotate
-} for
-
-% 7.
-0 1 180 {
-    1 2 180 {
-        newpath
-        % b, d, t
-        100
-        30
-		dup 720 div exch 270 div exch 0
-       	hypo 
-        lineto stroke
-    } for
-    rotate
-} for
-
-% 8.
-0 1 36 {
-    1 2 90 {
-        newpath
-        % b, d, t
-        3
-		dup 720 div exch 180 div exch 2
-        30
-       	hypo 
-        lineto stroke
-    } for
-    rotate
-} for
-
-% 9.
-0 1 36 {
-    1 2 45 {
-        newpath
-        % b, d, t
-        4
-		dup 72 div exch 90 div exch 2
-        90
-       	hypo 
-        lineto stroke
-    } for
-    rotate
-} for
-
-% 10.
-0 1 90 {
-    1 2 90 {
-        newpath
-        % b, d, t
-        100
-		dup 30 div exch 2 div exch 2
-        300
-       	hypo 
-        lineto stroke
-    } for
-    rotate
-} for
-
-
-showpage
-
+    dup 0 eq % true or false on stack depending on 'dup'
+    {
+        1 sub % n - 1
+        snowflake
+        l
+        snowflake
+        r r
+        snowflake
+        l
+        snowflake   
+    } if
+    
+    pop % if nothing there
+}
