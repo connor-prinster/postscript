@@ -5,13 +5,13 @@
 	72 mul
 } def
 
-%------------------------------------------%
-%------------------------------------------%
+% ------------------------------------------%
+% ------------------------------------------%
 %            ---- Triforce ----            %
-%------------------------------------------%
-%------------------------------------------%
+% ------------------------------------------%
+% ------------------------------------------%
 /maxDepth 10 def
-/origLen 500 def
+/origLen 400 def
 /origX 60 def
 /origY 300 def
  % as height will be the height of an equilateral triangle, it will be
@@ -75,11 +75,11 @@ origX origY origLen 0 recTri
 % showpage
 grestore
 
-%----------------------------------------------%
-%----------------------------------------------%
-%            ---- Dragon Curve ----            %
-%----------------------------------------------%
-%----------------------------------------------%
+%-------------------------------------------%
+%-------------------------------------------%
+%            ---- Box Curve ----            %
+%-------------------------------------------%
+%-------------------------------------------%
 % variables : X Y
 % constants : F + −
 % start : FX
@@ -92,48 +92,96 @@ grestore
     3
 } def
 
-/boxSize { % max size of the dragon
+/size { % max size of the box
     10
 } def
 
-/boxAng {
+/angle {
     90
 } def
 
-/X { % X+YF+
-    dup 0 ne { % comparing the size to 0 (as boxSize is on top)
-        1 sub % subtract 1 from boxSize
-        boxSides {dup} repeat X + Y Fbox +
+/Xbox { % X+YF+
+    dup 0 ne { % comparing the size to 0 (as size is on top)
+        1 sub % subtract 1 from size
+        boxSides {dup} repeat Xbox + Ybox F +
     } if
     pop 
 } def
 
-/Y { % −FX−Y
-    dup 0 ne { % comparing the size to 0 (as boxSize is on top)
-        1 sub % subtract 1 from boxSize
-        boxSides {dup} repeat - Fbox X - Y
+/Ybox { % −FX−Y
+    dup 0 ne { % comparing the size to 0 (as size is on top)
+        1 sub % subtract 1 from size
+        boxSides {dup} repeat - F Xbox - Ybox
     } if
     pop 
 } def
 
-/Fbox {
-    10 0 rlineto
+/F {
+    % 0 eq { 10 0 rlineto } if 
+    10 0 rlineto 
 } def
 
 /+ { % turn right 90
-    boxAng rotate
+    angle rotate
 } def
 
 /- { % turn left 90
-    boxAng neg rotate
+    angle neg rotate
 } def
 
 1 inch 2.5 inch translate
 % 0 setlinewidth
 newpath
-0 0 moveto
-1000 X 
+50 0 moveto
+90 rotate
+2000 Xbox
 stroke
+grestore
 
+%--------------------------------------------------------%
+%--------------------------------------------------------%
+%            ---- Connor's Pointy Spiral ----            %
+%--------------------------------------------------------%
+%--------------------------------------------------------%
+% variables : X Y
+% constants : F + −
+% start : X
+% rules : 
+%   X = -FX++FY-
+%   Y = +FX--FY+
+% angle : 80°
+
+/Xps { % X+YF+
+    dup 0 ne {
+        1 sub 4 {dup} repeat -ps Fps Xps +ps +ps Fps Yps -ps
+    } if 
+    pop
+} def
+
+/Yps { % −FX−Y
+    dup 0 ne {
+        1 sub 4 {dup} repeat +ps Fps Xps -ps -ps Fps Yps +ps
+    } if 
+    pop
+} def
+
+/Fps {
+    20 0 rlineto
+} bind def
+
+/+ps { 
+    80 rotate 
+} bind def
+
+/-ps { 
+    80 neg rotate 
+} bind def
+
+newpath
+400 180 moveto
+90 rotate
+500 Xps
+stroke
+grestore
 showpage
 
