@@ -1,49 +1,65 @@
 %!
-% Sierpinski gasket
-% By John Fouhy.
-/maxdepth 10 def
-/length 500 def
-/xoff 60 def
-/yoff 300 def
-/root3 1.7320508 def
 
-% draw a (roughly) equilateral triangle
-/triangle { 
-    newpath 
-    x y moveto 
-    a 0 rlineto 
-    120 rotate 
-    a 0 rlineto 
-    240 rotate 
-    closepath 
-    stroke 
+/maxDepth 10 def
+/origLen 500 def
+/origX 60 def
+/origY 300 def
+ % as height will be the height of an equilateral triangle, it will be
+ % the long side of a 30-60-90 triangle, or sqrt3
+/sqrt3 1.7320508 def
+
+/tri {
+    newpath % start a new path
+    x y moveto
+    len 0 rlineto % move 'a' to the left by length (base)
+    120 rotate % rotate to draw the right side
+    len 0 rlineto % draw this side
+    240 rotate % rotate so we complete a circle (360 deg)
+    closepath % end the path by returning to the beginning
+    stroke % draw the path we have set
 } def
 
-% usage: a x y depth rec
-% where a is the side length, (x,y) are the coords of the lower left corner, and depth is the recursion depth
-/rec {
-    /depth exch def % idx 0 = depth
-    /y exch def % idx 1 = y
-    /x exch def % idx 2 = x
-    /a exch def% idx 3 = a
+/recTri {
+    % will be sent as x, y, len, depth (but stack is wack)
+    /depth exch def 
+    /len exch def
+    /y exch def
+    /x exch def
 
-    triangle
-    depth maxdepth lt { % if we don't exceed the maxdepth
-        /newa a 2 div def % newa = a/2
-        /newdepth depth 1 add def % newdepth = depth + 1
+    tri % draw the triangle with the new values
+    depth maxDepth lt { % if we haven't done too much 'recursion'
+        /newDepth 1 depth add def % newdepth = depth + 1
+        /newLen len 2 div def % we cut the length in half for the new bases of the triforce
 
-    % rec(newa, x, y, newDepth)
-    newa x y newdepth 
-    % rec(newa, (x + a/4), y + (a * root3/4), newdepth)
-    newa x a 4 div add y root3 a mul 4 div add newdepth
-    % rec(newa, x + newa, y, newDepth)
-    newa x newa add y newdepth  % rec3
-    
-    rec rec rec %rec three times
+        % ---
+        % draw three new triangles
+        % ---
+
+        % bottom left
+        x 
+        y
+        newLen 
+        newDepth 
+
+        % top triangle
+        x len 4 div add % x + newLen/4
+        y sqrt3 len mul 4 div add % y + newLen * (sqrt3/4) (len instead of newLen for height of original triangle)
+        newLen 
+        newDepth
+
+        % bottom right
+        x newLen add % x + newLen
+        y 
+        newLen 
+        newDepth % bottom right
+
+        % run all three in their own recursion
+        recTri recTri recTri
     } if
 } def
 
 0 setlinewidth
-length xoff yoff 1 rec
+% (x, y, length, origDepth = 0) to recTri the first time
+origX origY origLen 0 recTri
 
 showpage

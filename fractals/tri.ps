@@ -22,6 +22,7 @@
 % usage: a x y depth rec
 % where a is the side length, (x,y) are the coords of the lower left corner, and depth is the recursion depth
 /rec {
+    stack
     /depth exch def % idx 0 = depth
     /y exch def % idx 1 = y
     /x exch def % idx 2 = x
