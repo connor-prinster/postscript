@@ -1,0 +1,49 @@
+%!
+% Sierpinski gasket
+% By John Fouhy.
+/maxdepth 10 def
+/length 500 def
+/xoff 60 def
+/yoff 300 def
+/root3 1.7320508 def
+
+% draw a (roughly) equilateral triangle
+/triangle { 
+    newpath 
+    x y moveto 
+    a 0 rlineto 
+    120 rotate 
+    a 0 rlineto 
+    240 rotate 
+    closepath 
+    stroke 
+} def
+
+% usage: a x y depth rec
+% where a is the side length, (x,y) are the coords of the lower left corner, and depth is the recursion depth
+/rec {
+    /depth exch def % idx 0 = depth
+    /y exch def % idx 1 = y
+    /x exch def % idx 2 = x
+    /a exch def% idx 3 = a
+
+    triangle
+    depth maxdepth lt { % if we don't exceed the maxdepth
+        /newa a 2 div def % newa = a/2
+        /newdepth depth 1 add def % newdepth = depth + 1
+
+    % rec(newa, x, y, newDepth)
+    newa x y newdepth 
+    % rec(newa, (x + a/4), y + (a * root3/4), newdepth)
+    newa x a 4 div add y root3 a mul 4 div add newdepth
+    % rec(newa, x + newa, y, newDepth)
+    newa x newa add y newdepth  % rec3
+    
+    rec rec rec %rec three times
+    } if
+} def
+
+0 setlinewidth
+length xoff yoff 1 rec
+
+showpage
